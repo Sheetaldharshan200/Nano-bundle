@@ -356,5 +356,66 @@ function parseArgs(argv) {
 }
 
 function printHelp() {
-  console.log(`exasol-json-mcp <command> [options]\n\nCommands:\n  ${COMMANDS.join("\n  ")}\n\nOptions:\n  --home=<path>       Override local state directory\n  --channel=stable    Select bundled manifest channel\n  --yes               Use defaults and skip confirmations where safe\n  --no-docker         Render/configure/update without Docker actions\n  --render-only       Alias for start-time rendering only\n  --no-wait           Do not wait for completed/exit after start\n  --static-only       For smoke-test, validate rendered files only\n  --client=claude     Select AI client: claude, codex, vscode, or all\n  --dry-run           Show planned client/autostart changes without writing\n  --verbose           Print diagnostic details\n`);
+  console.log(`exasol-json-mcp <command> [options]
+
+One-command local Exasol Nano + JSON Tables + MCP launcher.
+
+Common first run:
+  npx -y @sheetaldharshan/exasol-json-mcp start
+  npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=all
+  npx -y @sheetaldharshan/exasol-json-mcp autostart enable
+
+Commands:
+  start                    Configure if needed, start Docker stack, wait for readiness, run smoke tests
+  configure                Create or refresh local .env and rendered runtime files
+  status                   Show state directory, configured ports, active manifest, and Compose status
+  doctor                   Diagnose Docker, rendered files, MCP endpoint, and AI client config
+  print-mcp-config         Print MCP URL, JSON client config, and first prompt
+  install-client-config    Install MCP config into an AI client
+  autostart                Manage OS sign-in startup hook for this local stack
+  logs                     Show Docker Compose logs, default --tail=200
+  smoke-test               Run SQL and MCP smoke tests against an existing stack
+  update                   Pull/apply the bundled target manifest and smoke-test it
+  rollback                 Restore previous manifest after a failed update
+  stop                     Stop containers while preserving data volumes and config
+  reset                    Destructive reset; requires --confirm=delete-local-exasol-json-mcp
+  help                     Show this help
+
+Subcommands:
+  autostart enable         Start the stack automatically when the user signs in
+  autostart disable        Remove the sign-in startup hook
+  autostart status         Show whether the startup hook is installed
+
+Options:
+  --home=<path>            Override local state directory
+  --channel=<name>         Select bundled manifest channel: stable, candidate, or dev
+  --yes                    Use defaults and skip confirmations where safe
+  --non-interactive        Alias-style flag accepted by configure/start flows
+  --no-docker              Render/configure/update without Docker actions
+  --render-only            Render runtime files during start without Docker actions
+  --no-wait                Do not wait for completed/exit input after start
+  --check-ports            Check localhost port availability before reuse start
+  --static-only            For smoke-test, validate rendered files only
+  --tail=<lines>           For logs, number of log lines to show; default 200
+  --client=<target>        AI client target: claude, codex, vscode, or all
+  --status                 For install-client-config, report installed/not installed
+  --dry-run                Show planned client/autostart changes without applying OS/client registration
+  --verbose                Print diagnostic details
+  --quiet                  Suppress non-essential logger output where supported
+  --help                   Show this help
+
+Examples:
+  exasol-json-mcp start --yes --no-wait
+  exasol-json-mcp install-client-config --client=all
+  exasol-json-mcp install-client-config --client=codex --status
+  exasol-json-mcp autostart enable
+  exasol-json-mcp logs --tail=300
+  exasol-json-mcp update --channel=stable
+  exasol-json-mcp rollback
+  exasol-json-mcp reset --confirm=delete-local-exasol-json-mcp
+
+Default state directory:
+  Windows: %USERPROFILE%\\.exasol-json-mcp
+  macOS/Linux: ~/.exasol-json-mcp
+`);
 }

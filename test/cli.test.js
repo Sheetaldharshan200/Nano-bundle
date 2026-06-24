@@ -58,5 +58,21 @@ test("reset refuses to run without destructive confirmation", async () => {
     await rm(dir, { recursive: true, force: true });
   }
 });
-
-
+test("--help shows commands, subcommands, clients, and examples", async () => {
+  const originalLog = console.log;
+  const output = [];
+  console.log = (value = "") => output.push(String(value));
+  try {
+    await main(["--help"]);
+    const help = output.join("\n");
+    assert.match(help, /Commands:/);
+    assert.match(help, /install-client-config/);
+    assert.match(help, /autostart enable/);
+    assert.match(help, /--client=<target>/);
+    assert.match(help, /claude, codex, vscode, or all/);
+    assert.match(help, /reset --confirm=delete-local-exasol-json-mcp/);
+    assert.match(help, /Default state directory:/);
+  } finally {
+    console.log = originalLog;
+  }
+});
