@@ -1,0 +1,4 @@
+interface:
+  display_name: "Exasol JSON MCP Production"
+  short_description: "Resume and ship the Exasol JSON MCP launcher"
+  default_prompt: "Use $exasol-json-mcp-production to continue production planning and delivery from the repo artifacts."

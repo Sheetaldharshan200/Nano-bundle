@@ -1,0 +1,4 @@
+{"event_id":"evt-001","customer_id":"cust-001","event_type":"signup","amount":0,"event_ts":"2026-06-01T10:00:00Z","payload":"{\"plan\":\"trial\",\"country\":\"DE\"}"}
+{"event_id":"evt-002","customer_id":"cust-001","event_type":"purchase","amount":49.9,"event_ts":"2026-06-03T12:15:00Z","payload":"{\"plan\":\"pro\",\"currency\":\"EUR\"}"}
+{"event_id":"evt-003","customer_id":"cust-002","event_type":"signup","amount":0,"event_ts":"2026-06-04T09:30:00Z","payload":"{\"plan\":\"trial\",\"country\":\"US\"}"}
+{"event_id":"evt-004","customer_id":"cust-002","event_type":"usage","amount":7.5,"event_ts":"2026-06-05T18:20:00Z","payload":"{\"feature\":\"mcp\",\"units\":15}"}

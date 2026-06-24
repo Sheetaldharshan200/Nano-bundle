@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '21 4 * * 1'
+
+jobs:
+  node:
+    name: Node lint and tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+      - run: npm test
+      - run: npm run validate:manifests
+      - run: npm pack --dry-run
+
+  docker-static:
+    name: Render-only launcher smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node ./bin/exasol-json-mcp.js start --home=/tmp/exasol-json-mcp-ci --render-only --yes
+      - run: test -f /tmp/exasol-json-mcp-ci/docker-compose.yml
+      - run: test -f /tmp/exasol-json-mcp-ci/mcp/settings.json
+      - run: node ./bin/exasol-json-mcp.js smoke-test --home=/tmp/exasol-json-mcp-ci --static-only
+

@@ -1,0 +1,46 @@
+{
+  "channel": "dev",
+  "versions": {
+    "exasolNanoImage": "docker.io/exasol/nano@sha256:bbaee25461c4690e583aec200531a0824c665841ba018e525092ab83d55b1560",
+    "jsonBootstrapImage": "docker.io/sheetaldharshan/exasol-json-bootstrap:0.1.0-dev",
+    "mcpServerImage": "docker.io/sheetaldharshan/exasol-mcp-server:0.1.0-dev"
+  },
+  "minimums": {
+    "docker": "24.0.0",
+    "compose": "2.20.0"
+  },
+  "timeouts": {
+    "startMs": 300000,
+    "smokeMs": 30000
+  },
+  "smoke": {
+    "mcpHealthPath": "/mcp",
+    "commands": [
+      {
+        "name": "SQL SELECT 1 via readonly MCP container",
+        "service": "mcp-server",
+        "command": [
+          "python",
+          "-c",
+          "import pyexasol, os, ssl; dsn=os.environ[\"EXASOL_HOST\"]+\":\"+os.environ[\"EXASOL_PORT\"]; c=pyexasol.connect(dsn=dsn, user=os.environ[\"EXASOL_USER\"], password=os.environ[\"EXASOL_PASSWORD\"], encryption=True, websocket_sslopt={\"cert_reqs\": ssl.CERT_NONE}); print(c.execute(\"SELECT 1\").fetchval())"
+        ],
+        "stdoutIncludes": "1"
+      },
+      {
+        "name": "SQL ANALYTICS.CUSTOMER_EVENTS count via readonly MCP container",
+        "service": "mcp-server",
+        "command": [
+          "python",
+          "-c",
+          "import pyexasol, os, ssl; dsn=os.environ[\"EXASOL_HOST\"]+\":\"+os.environ[\"EXASOL_PORT\"]; c=pyexasol.connect(dsn=dsn, user=os.environ[\"EXASOL_USER\"], password=os.environ[\"EXASOL_PASSWORD\"], encryption=True, websocket_sslopt={\"cert_reqs\": ssl.CERT_NONE}); print(c.execute(\"SELECT COUNT(*) FROM ANALYTICS.CUSTOMER_EVENTS\").fetchval())"
+        ],
+        "stdoutIncludes": "4"
+      }
+    ],
+    "mcpTools": {
+      "listSchemas": "list_exasol_schemas",
+      "readQuery": "execute_exasol_query",
+      "writeQuery": "execute_exasol_write_query"
+    }
+  }
+}

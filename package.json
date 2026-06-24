@@ -1,0 +1,27 @@
+{
+  "name": "@sheetaldharshan/exasol-json-mcp",
+  "version": "0.1.0",
+  "description": "One-command local Exasol Nano + JSON Tables + MCP launcher.",
+  "type": "module",
+  "bin": {
+    "exasol-json-mcp": "./bin/exasol-json-mcp.js"
+  },
+  "scripts": {
+    "test": "node scripts/run-tests.js",
+    "lint": "node scripts/check-syntax.js",
+    "validate:manifests": "node scripts/validate-manifests.js",
+    "images:set-namespace": "node scripts/set-image-namespace.js",
+    "images:build": "node scripts/build-images.js",
+    "images:push": "node scripts/build-images.js sheetaldharshan 0.1.0 --push"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "manifests/",
+    "docs/"
+  ],
+  "license": "UNLICENSED"
+}

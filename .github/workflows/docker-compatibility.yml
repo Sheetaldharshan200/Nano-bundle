@@ -1,0 +1,33 @@
+name: docker-compatibility
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Manifest channel to test
+        required: true
+        default: stable
+      home:
+        description: Launcher state directory
+        required: true
+        default: /tmp/exasol-json-mcp-compat
+
+jobs:
+  live-stack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+      - run: npm test
+      - run: node ./bin/exasol-json-mcp.js start --channel=${{ inputs.channel }} --home=${{ inputs.home }} --yes --no-wait --verbose
+      - run: node ./bin/exasol-json-mcp.js smoke-test --home=${{ inputs.home }} --verbose
+      - if: always()
+        run: node ./bin/exasol-json-mcp.js logs --home=${{ inputs.home }} --tail=300 || true
+      - if: always()
+        run: node ./bin/exasol-json-mcp.js stop --home=${{ inputs.home }} || true
