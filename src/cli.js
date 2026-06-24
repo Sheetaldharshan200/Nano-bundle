@@ -60,10 +60,15 @@ async function start(stateDir, manifest, flags, logger) {
   }
 
   await preflight(config, effectiveManifest, logger, { checkPorts: created || Boolean(flags["check-ports"]) });
+  logger.info(created
+    ? "First run can take several minutes because Docker images may need to download and Exasol Nano must initialize."
+    : "Starting or reusing the existing local stack. This is usually faster after the first successful run.");
   logger.step("Starting Docker Compose stack");
+  logger.info("If Docker was pruned recently, this step downloads the Nano, JSON bootstrap, and MCP images again.");
   const result = await dockerCompose(stateDir, ["up", "-d"], { stdio: "inherit" });
   if (result.code !== 0) throw new Error("docker compose up failed");
   await waitForRuntime(stateDir, config, effectiveManifest, logger);
+  logger.step("Running SQL and MCP smoke tests");
   await runSmokeTests(stateDir, config, effectiveManifest, logger);
   logger.info(renderReadyOutput(config));
   const answer = await waitForCompletionInput({ nonInteractive: Boolean(flags.yes || flags["no-wait"] || flags["non-interactive"]) });
@@ -293,3 +298,4 @@ function parseArgs(argv) {
 function printHelp() {
   console.log(`exasol-json-mcp <command> [options]\n\nCommands:\n  ${COMMANDS.join("\n  ")}\n\nOptions:\n  --home=<path>       Override local state directory\n  --channel=stable    Select bundled manifest channel\n  --yes               Use defaults and skip confirmations where safe\n  --no-docker         Render/configure/update without Docker actions\n  --render-only       Alias for start-time rendering only\n  --no-wait           Do not wait for completed/exit after start\n  --static-only       For smoke-test, validate rendered files only\n  --verbose           Print diagnostic details\n`);
 }
+

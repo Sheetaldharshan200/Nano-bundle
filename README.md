@@ -52,6 +52,12 @@ The launcher will:
 5. Run smoke tests.
 6. Print the MCP URL, AI client config, and first prompt.
 
+First run timing:
+
+- After a Docker prune or on a new machine, startup can take several minutes because Docker must download images again.
+- Exasol Nano also needs time to initialize before JSON bootstrap and MCP can start.
+- Later runs are normally faster because images and the local Docker volume are already present.
+
 Default local folder:
 
 - Windows: `%USERPROFILE%\.exasol-json-mcp`

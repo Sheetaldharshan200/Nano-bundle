@@ -7,9 +7,11 @@ import { SERVICES } from "./constants.js";
 export async function waitForRuntime(stateDir, config, manifest, logger, options = {}) {
   const timeoutMs = Number(options.timeoutMs || manifest.timeouts?.startMs || 300000);
   const started = Date.now();
-  logger.step("Waiting for Exasol SQL port");
+  logger.step(`Waiting for Exasol SQL port, up to ${formatDuration(timeoutMs)}`);
+  logger.info("Cold Exasol Nano startup commonly takes 2-5 minutes on the first run or after Docker cleanup.");
   await waitForTcp(config.sqlHost, Number(config.sqlPort), { timeoutMs, label: "Exasol SQL" });
   logger.step("Waiting for Docker services");
+  logger.info("The JSON bootstrap service must finish before the MCP server can accept requests.");
   await waitForComposeServices(stateDir, { timeoutMs: remaining(started, timeoutMs) });
   logger.step("Waiting for MCP HTTP endpoint");
   await waitForHttp(`http://localhost:${config.mcpPort}${manifest.smoke?.mcpHealthPath || "/mcp"}`, {
@@ -222,4 +224,9 @@ function remaining(started, timeoutMs) {
   return Math.max(1000, timeoutMs - (Date.now() - started));
 }
 
+function formatDuration(ms) {
+  const seconds = Math.round(ms / 1000);
+  if (seconds < 60) return `${seconds}s`;
+  return `${Math.round(seconds / 60)}m`;
+}
 

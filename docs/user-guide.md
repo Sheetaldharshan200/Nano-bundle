@@ -24,6 +24,8 @@ The launcher creates a private local working folder and writes runtime files the
 
 When all checks pass, the launcher prints `Ready`.
 
+On a new machine or after Docker cleanup, this can take several minutes. The launcher is doing three things in sequence: downloading images, starting Exasol Nano, then running JSON and MCP smoke tests. Later runs are normally faster.
+
 ## What To Copy Into Your AI Client
 
 Copy the JSON block printed under `AI client MCP config`.
