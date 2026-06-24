@@ -42,3 +42,28 @@ npx @sheetaldharshan/exasol-json-mcp stop
 ## Local MCP Security Boundary
 
 The MCP HTTP endpoint is bound to `127.0.0.1` by default. The upstream Exasol MCP Server runs in local HTTP mode inside Docker; access control is enforced by Docker loopback binding, the generated `MCP_READONLY` database user, and MCP settings that disable write query, BucketFS, functions, scripts, profiling, and summarization. Do not publish the MCP port on a public interface without adding an external authentication proxy.
+
+## npm Publishing
+
+This package is scoped to the npm account `sheetaldharshan`.
+
+Manual publish:
+
+```bash
+npm login
+npm whoami
+npm ci
+npm run lint
+npm test
+npm run validate:manifests
+npm pack --dry-run
+npm publish --access public
+```
+
+GitHub publish:
+
+1. Create an npm automation token in the `sheetaldharshan` npm account.
+2. Add it to the GitHub repository as `Settings -> Secrets and variables -> Actions -> New repository secret`.
+3. Name the secret `NPM_TOKEN`.
+4. Push a version tag like `v0.1.0` or run the `release-npm` workflow manually.
+

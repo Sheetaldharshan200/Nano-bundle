@@ -1,13 +1,13 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { join, win32 } from "node:path";
 import { randomBytes } from "node:crypto";
 import { DEFAULTS, ENV_KEYS } from "./constants.js";
 
 export function defaultStateDir(env = process.env, platform = process.platform) {
   if (env.EXASOL_JSON_MCP_HOME) return env.EXASOL_JSON_MCP_HOME;
-  if (platform === "win32") return join(env.USERPROFILE || homedir(), ".exasol-json-mcp");
+  if (platform === "win32") return win32.join(env.USERPROFILE || homedir(), ".exasol-json-mcp");
   return join(env.HOME || homedir(), ".exasol-json-mcp");
 }
 

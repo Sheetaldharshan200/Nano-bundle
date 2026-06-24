@@ -8,6 +8,8 @@ Use this checklist before promoting a candidate manifest to stable.
 - [ ] `npm test` passed.
 - [ ] `npm run validate:manifests` passed.
 - [ ] `npm pack --dry-run` passed.
+- [ ] `npm whoami` returns `sheetaldharshan` for manual npm publishing, or GitHub secret `NPM_TOKEN` is configured for workflow publishing.
+- [ ] GitHub `CI` workflow passed on `main`.
 - [ ] Manual `docker-compatibility` workflow passed for candidate.
 - [ ] Update from previous stable passed.
 - [ ] Rollback from candidate to previous stable passed.
@@ -36,3 +38,17 @@ Describe startup, data, schema, MCP, or configuration changes.
 ```bash
 npx @sheetaldharshan/exasol-json-mcp rollback
 ```
+
+## npm Release
+
+The package name is `@sheetaldharshan/exasol-json-mcp`, so it must be published from the npm account or organization named `sheetaldharshan`.
+
+Manual publish:
+
+```bash
+npm login
+npm whoami
+npm publish --access public
+```
+
+GitHub Actions publish requires a repository secret named `NPM_TOKEN` containing an npm automation token from the `sheetaldharshan` account. Push tag `v0.1.0` or run the `release-npm` workflow manually after CI passes.
