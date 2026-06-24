@@ -1,6 +1,6 @@
 {
   "name": "@sheetaldharshan/exasol-json-mcp",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "One-command local Exasol Nano + JSON Tables + MCP launcher.",
   "type": "module",
   "bin": {

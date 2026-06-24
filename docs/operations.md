@@ -6,10 +6,10 @@ This document records production runtime decisions and the fixes for issues foun
 
 The release manifests use tested images under `docker.io/sheetaldharshan/*`:
 
-- `docker.io/sheetaldharshan/exasol-json-bootstrap:0.1.0`
+- `docker.io/sheetaldharshan/exasol-json-bootstrap:0.1.1`
 - `docker.io/sheetaldharshan/exasol-mcp-server:0.1.0`
 
-Candidate and dev tags are available as `0.1.0-candidate` and `0.1.0-dev`.
+Candidate and dev tags are available in the release manifests for each runtime image; the JSON bootstrap fix is published as `0.1.1`, `0.1.1-candidate`, and `0.1.1-dev`.
 
 ## Known Startup Failure Classes Now Covered
 

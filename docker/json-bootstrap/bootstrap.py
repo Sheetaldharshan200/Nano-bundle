@@ -101,8 +101,9 @@ def main():
 
     table = f"{schema}.{dataset}"
     raw_table = f"{schema}.{dataset}_RAW"
-    connection.execute(f"DROP TABLE IF EXISTS {table}")
-    connection.execute(f"DROP TABLE IF EXISTS {raw_table}")
+    execute_ignore(connection, f"DROP VIEW IF EXISTS {table}", ["does not exist", "not found", "unknown object", "not a view"])
+    execute_ignore(connection, f"DROP TABLE IF EXISTS {table}", ["does not exist", "not found", "unknown object", "not a table"])
+    execute_ignore(connection, f"DROP TABLE IF EXISTS {raw_table}", ["does not exist", "not found", "unknown object", "not a table"])
     connection.execute(
         f"""
         CREATE TABLE {raw_table} (

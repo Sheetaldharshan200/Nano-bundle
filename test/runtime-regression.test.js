@@ -12,6 +12,8 @@ test("bootstrap SQL is rerunnable and uses Exasol password syntax", async () => 
   assert.match(source, /def password_literal/);
   assert.match(source, /IDENTIFIED BY \{password_literal\(readonly_password\)\}/);
   assert.match(source, /conflicts with another user or role name/);
+  assert.match(source, /DROP VIEW IF EXISTS \{table\}/);
+  assert.match(source, /DROP TABLE IF EXISTS \{raw_table\}/);
   assert.doesNotMatch(source, /IDENTIFIED BY \{sql_string\(readonly_password\)\}/);
 });
 

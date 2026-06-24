@@ -2,7 +2,7 @@
   "channel": "stable",
   "versions": {
     "exasolNanoImage": "docker.io/exasol/nano@sha256:bbaee25461c4690e583aec200531a0824c665841ba018e525092ab83d55b1560",
-    "jsonBootstrapImage": "docker.io/sheetaldharshan/exasol-json-bootstrap:0.1.0",
+    "jsonBootstrapImage": "docker.io/sheetaldharshan/exasol-json-bootstrap:0.1.1",
     "mcpServerImage": "docker.io/sheetaldharshan/exasol-mcp-server:0.1.0"
   },
   "minimums": {
