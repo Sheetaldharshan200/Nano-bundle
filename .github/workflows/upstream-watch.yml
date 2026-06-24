@@ -1,0 +1,53 @@
+name: upstream-watch
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - id: upstreams
+        run: node scripts/check-upstreams.js --json upstream-report.json --markdown upstream-report.md
+      - name: Upload upstream report
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-report
+          path: |
+            upstream-report.json
+            upstream-report.md
+      - name: Open or update upstream issue
+        if: steps.upstreams.outputs.has_updates == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- exasol-json-mcp-upstream-watch -->';
+            const title = 'Upstream updates available for Exasol JSON MCP runtime';
+            const report = fs.readFileSync('upstream-report.md', 'utf8');
+            const body = `${marker}\n${report}\n\nNext step: review release notes, update candidate pins, run docker-compatibility, then promote to stable only after smoke tests pass.`;
+            const { owner, repo } = context.repo;
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100
+            });
+            const match = issues.find(issue => issue.title === title || (issue.body || '').includes(marker));
+            if (match) {
+              await github.rest.issues.update({ owner, repo, issue_number: match.number, title, body });
+            } else {
+              await github.rest.issues.create({ owner, repo, title, body });
+            }

@@ -1,0 +1,18 @@
+{
+  "exasolNano": {
+    "kind": "dockerHubTag",
+    "repository": "exasol/nano",
+    "currentImageKey": "exasolNanoImage",
+    "stableTagPattern": "^\\d{4}\\.\\d+\\.\\d+-nano\\.\\d+$"
+  },
+  "exasolMcpServer": {
+    "kind": "pypi",
+    "package": "exasol-mcp-server",
+    "requirementsFile": "docker/mcp-server/requirements.txt"
+  },
+  "jsonTables": {
+    "kind": "githubTags",
+    "repository": "exasol-labs/exasol-json-tables",
+    "currentRef": "v0.1"
+  }
+}

@@ -1,69 +1,211 @@
 # Exasol JSON MCP Launcher
 
-One-command local launcher for Exasol Nano, JSON Tables bootstrap, and Exasol MCP Server.
+Run a local Exasol Nano database, load sample JSON data, and expose a safe read-only MCP endpoint for AI assistants with one command.
 
-```bash
-npx @sheetaldharshan/exasol-json-mcp start
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp start
 ```
 
-Current implementation status is tracked in `tasks.md`. The launcher renders pinned Docker Compose runtime files, safe MCP settings, first-run configuration, update/rollback state, and smoke-test orchestration. Release manifests point to tested Docker Hub images under `docker.io/sheetaldharshan/*`.
+This project is for local demos, BI exploration, solution engineering, and repeatable JSON/MCP testing. It starts everything in Docker on your machine and binds SQL and MCP ports to `127.0.0.1` by default.
 
-## Local Development
+## What You Get
 
-```bash
-npm run lint
-npm test
-node ./bin/exasol-json-mcp.js start --home=.tmp/local --render-only --yes
+- Exasol Nano running locally in Docker.
+- A bootstrapped `ANALYTICS.CUSTOMER_EVENTS` JSON sample table/view.
+- Exasol MCP Server exposed at `http://localhost:7766/mcp`.
+- A generated `MCP_READONLY` database user for AI access.
+- Read-only MCP defaults: write SQL, BucketFS, functions, scripts, profiling, and summarization are disabled.
+- Built-in `status`, `logs`, `smoke-test`, `update`, `rollback`, `stop`, and `reset` commands.
+
+## Before You Start
+
+Install these first:
+
+1. Docker Desktop: https://www.docker.com/products/docker-desktop/
+2. Node.js 20 or newer: https://nodejs.org/
+
+Then start Docker Desktop and wait until it says the engine is running.
+
+Check from a terminal:
+
+```powershell
+docker --version
+docker compose version
+node --version
+npm --version
 ```
 
-## Safety Defaults
-
-- SQL and MCP bind to `127.0.0.1`.
-- MCP uses `MCP_READONLY`, not `SYS`.
-- MCP write query, BucketFS, functions, scripts, profiling, and summarization are disabled.
-- Release manifests reject `latest`, `main`, `master`, and untagged images.
 ## First Run
 
-```bash
-npx @sheetaldharshan/exasol-json-mcp start
+Use PowerShell, Terminal, or Command Prompt:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp start
 ```
 
-The launcher writes its runtime files under `~/.exasol-json-mcp` or `%USERPROFILE%\.exasol-json-mcp`, starts Docker Compose, runs SQL and MCP smoke checks, then prints the MCP URL and first AI prompt. Re-running `start` reuses `.env` and does not ask setup questions again.
+The launcher will:
 
-Useful commands:
+1. Create a local folder for its files.
+2. Generate safe default passwords.
+3. Download the tested Docker images.
+4. Start Exasol Nano, JSON bootstrap, and MCP Server.
+5. Run smoke tests.
+6. Print the MCP URL, AI client config, and first prompt.
 
-```bash
-npx @sheetaldharshan/exasol-json-mcp status
-npx @sheetaldharshan/exasol-json-mcp logs
-npx @sheetaldharshan/exasol-json-mcp smoke-test
-npx @sheetaldharshan/exasol-json-mcp stop
+Default local folder:
+
+- Windows: `%USERPROFILE%\.exasol-json-mcp`
+- macOS/Linux: `~/.exasol-json-mcp`
+
+## Connect Your AI Client
+
+After `start` finishes, copy the MCP config printed by the launcher into your AI client.
+
+Default MCP URL:
+
+```text
+http://localhost:7766/mcp
 ```
 
-## Local MCP Security Boundary
+First prompt to try:
 
-The MCP HTTP endpoint is bound to `127.0.0.1` by default. The upstream Exasol MCP Server runs in local HTTP mode inside Docker; access control is enforced by Docker loopback binding, the generated `MCP_READONLY` database user, and MCP settings that disable write query, BucketFS, functions, scripts, profiling, and summarization. Do not publish the MCP port on a public interface without adding an external authentication proxy.
+```text
+Use the connected Exasol MCP server. List available schemas, describe ANALYTICS.CUSTOMER_EVENTS, then run SELECT COUNT(*) FROM ANALYTICS.CUSTOMER_EVENTS.
+```
 
-## npm Publishing
+When your AI client finishes, return to the terminal and type:
 
-This package is scoped to the npm account `sheetaldharshan`.
+```text
+completed
+```
 
-Manual publish:
+The stack keeps running until you stop it.
 
-```bash
-npm login
-npm whoami
+## Daily Use
+
+Start or reuse the stack:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp start
+```
+
+Show current status:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp status
+```
+
+Print only the MCP config again:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp print-mcp-config
+```
+
+Show recent logs:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp logs
+```
+
+Run health checks:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp smoke-test
+```
+
+Stop containers but keep data:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp stop
+```
+
+## Update Safely
+
+Use this when a new tested launcher/runtime release is available:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp update
+```
+
+The update flow shows current and target versions before changing anything. It saves the old manifest as `previous-manifest.json`, pulls the new images, starts the stack, and runs smoke tests.
+
+If an update fails, roll back:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp rollback
+```
+
+Use `status` after update or rollback:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp status
+```
+
+## Clean Reset
+
+Use this only when you want to remove the local containers and Docker volume for this stack.
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp reset --confirm=delete-local-exasol-json-mcp
+```
+
+A normal `stop` is safer for daily use because it preserves data.
+
+## Troubleshooting
+
+Docker is not running:
+
+```text
+Start Docker Desktop, wait for Engine running, then run start again.
+```
+
+Port already in use:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp configure
+```
+
+Then choose different SQL or MCP ports.
+
+Need logs:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp logs --tail=300
+```
+
+Need to verify the system:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp smoke-test --verbose
+```
+
+## For Maintainers
+
+Local checks:
+
+```powershell
 npm ci
 npm run lint
 npm test
 npm run validate:manifests
+npm run check:upstreams
 npm pack --dry-run
-npm publish --access public
 ```
 
-GitHub publish:
+GitHub Actions:
 
-1. Create an npm automation token in the `sheetaldharshan` npm account.
-2. Add it to the GitHub repository as `Settings -> Secrets and variables -> Actions -> New repository secret`.
-3. Name the secret `NPM_TOKEN`.
-4. Push a version tag like `v0.1.0` or run the `release-npm` workflow manually.
+- `ci`: lint, tests, manifest validation, package dry-run, and render-only smoke checks.
+- `docker-compatibility`: manual full Docker stack compatibility test.
+- `upstream-watch`: scheduled upstream release monitor for Exasol Nano, Exasol MCP Server, and JSON Tables.
+- `release-npm`: publishes the npm package when a version tag is pushed or the workflow is manually run.
 
+Release order:
+
+1. Check upstream updates with `npm run check:upstreams`.
+2. Update candidate pins only.
+3. Run `docker-compatibility` on `candidate`.
+4. Promote tested pins to `stable`.
+5. Run `docker-compatibility` on `stable`.
+6. Bump npm version and publish.
+
+More details are in `docs/user-guide.md`, `docs/maintainer-updates.md`, and `docs/release-checklist.md`.

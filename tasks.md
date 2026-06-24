@@ -116,7 +116,7 @@
 - [x] Add release workflow for npm package.
 - [ ] Add release workflow for Python fallback package if implemented.
 - [x] Add scheduled manifest validation workflow.
-- [ ] Configure update watcher to open pin-only PRs after upstream image registry/source is finalized.
+- [x] Configure scheduled upstream watcher for Nano, MCP Server, and JSON Tables; opens/updates a GitHub issue for maintainer review before candidate pins change.
 - [x] Publish candidate/dev/stable Docker image tags after real image pins are available.
 
 ## Phase 9A: Regression Hardening From Live Validation
@@ -151,4 +151,9 @@
 - [x] Configure `manifest.smoke.mcpTools` with exact Exasol MCP Server tool names for schema listing, read query, and write-blocked tests.
 - [ ] Run the GitHub manual `docker-compatibility` workflow against candidate and stable manifests.
 
+## Documentation And Update UX
 
+- [x] Rewrite README for non-technical end-to-end install, start, connect, update, rollback, stop, and reset flows.
+- [x] Add user guide for BI/demo users.
+- [x] Add maintainer update guide for upstream-watch, candidate testing, stable promotion, and user update instructions.
+- [x] Add scheduled upstream-watch GitHub Action and local `npm run check:upstreams` command.

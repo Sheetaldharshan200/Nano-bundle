@@ -12,7 +12,8 @@
     "validate:manifests": "node scripts/validate-manifests.js",
     "images:set-namespace": "node scripts/set-image-namespace.js",
     "images:build": "node scripts/build-images.js",
-    "images:push": "node scripts/build-images.js sheetaldharshan 0.1.0 --push"
+    "images:push": "node scripts/build-images.js sheetaldharshan 0.1.0 --push",
+    "check:upstreams": "node scripts/check-upstreams.js"
   },
   "engines": {
     "node": ">=20.0.0"
