@@ -8,7 +8,10 @@ export const COMMANDS = [
   "update",
   "rollback",
   "reset",
-  "print-mcp-config"
+  "print-mcp-config",
+  "install-client-config",
+  "autostart",
+  "doctor"
 ];
 
 export const DEFAULTS = Object.freeze({

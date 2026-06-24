@@ -26,6 +26,7 @@ export function renderCompose(config, manifest) {
   return `name: exasol-json-mcp
 services:
   exanano:
+    restart: unless-stopped
     image: ${config.exasolNanoImage || manifest.versions.exasolNanoImage}
     shm_size: "512m"
     ports:
@@ -51,6 +52,7 @@ services:
       USE_SAMPLE_DATA: "${escapeYaml(config.useSampleData)}"
 
   mcp-server:
+    restart: unless-stopped
     image: ${manifest.versions.mcpServerImage}
     depends_on:
       json-bootstrap:
@@ -94,4 +96,3 @@ export function renderReadyOutput(config) {
 function escapeYaml(value) {
   return String(value).replaceAll("\\", "\\\\").replaceAll('"', '\\"');
 }
-

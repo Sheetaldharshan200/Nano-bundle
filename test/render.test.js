@@ -66,3 +66,10 @@ test("Compose passes official MCP settings and Nano TLS environment variables", 
   assert.match(compose, /EXA_SSL_CERT_VALIDATION: "no"/);
   assert.doesNotMatch(compose, /MCP_SETTINGS_FILE/);
 });
+test("Compose restarts long-running services after host reboot", () => {
+  const compose = renderCompose(config, manifest);
+  assert.match(compose, /exanano:\n    restart: unless-stopped/);
+  assert.match(compose, /mcp-server:\n    restart: unless-stopped/);
+  assert.doesNotMatch(compose, /json-bootstrap:\n    restart: unless-stopped/);
+});
+

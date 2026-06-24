@@ -202,3 +202,10 @@ The Docker runtime includes guardrails for the exact failures found during Windo
 ## Documentation Output
 
 The launcher output is part of the product surface. It must be concise, copy-pasteable, and complete enough that the user does not need to search docs during first run.
+## Runtime Provider Extension
+
+Docker is the current runtime provider. If Exasol later ships a supported native `.exe`, macOS binary/app, or Linux AppImage for Nano, the launcher should add a provider interface behind the same CLI commands rather than changing the user-facing contract. The provider must support non-interactive start, stop, status, logs, version reporting, local data directory selection, localhost SQL binding, and reset. The same manifest/update/rollback/smoke-test flow should remain in place so users still run `npx -y @sheetaldharshan/exasol-json-mcp start`, `update`, and `rollback`.
+
+## Persistent Client And Startup Design
+
+Long-running Docker services use `restart: unless-stopped` so Docker can bring them back after daemon restart. The CLI also provides `autostart enable|disable|status` to register an OS user-level startup hook that runs `start --yes --no-wait`. The MCP client config can be installed separately with `install-client-config --client=claude`; this keeps the AI client entry permanent while the local stack is started manually or through autostart.

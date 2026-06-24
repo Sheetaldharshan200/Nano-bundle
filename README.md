@@ -15,7 +15,7 @@ This project is for local demos, BI exploration, solution engineering, and repea
 - Exasol MCP Server exposed at `http://localhost:7766/mcp`.
 - A generated `MCP_READONLY` database user for AI access.
 - Read-only MCP defaults: write SQL, BucketFS, functions, scripts, profiling, and summarization are disabled.
-- Built-in `status`, `logs`, `smoke-test`, `update`, `rollback`, `stop`, and `reset` commands.
+- Built-in `status`, `logs`, `smoke-test`, `update`, `rollback`, `stop`, `reset`, `doctor`, `autostart`, and `install-client-config` commands.
 
 ## Before You Start
 
@@ -124,6 +124,26 @@ Stop containers but keep data:
 ```powershell
 npx -y @sheetaldharshan/exasol-json-mcp stop
 ```
+
+Install the MCP entry into Claude Desktop config:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=claude
+```
+
+Start the local stack automatically when you sign in:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp autostart enable
+```
+
+Check installation health:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp doctor
+```
+
+After a system restart, either autostart brings the stack back when Docker Desktop is available, or the user can run the normal `start` command again. The AI client config can remain installed permanently.
 
 ## Update Safely
 

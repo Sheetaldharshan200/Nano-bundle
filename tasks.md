@@ -157,3 +157,10 @@
 - [x] Add user guide for BI/demo users.
 - [x] Add maintainer update guide for upstream-watch, candidate testing, stable promotion, and user update instructions.
 - [x] Add scheduled upstream-watch GitHub Action and local `npm run check:upstreams` command.
+## Persistent Startup And Client Config
+
+- [x] Add Docker restart policy for long-running Exasol Nano and MCP services.
+- [x] Add `autostart enable`, `autostart disable`, and `autostart status` commands.
+- [x] Add `install-client-config --client=claude` and status support for permanent MCP client config.
+- [x] Add `doctor` command for local diagnostics.
+- [x] Document future native Exasol Nano runtime provider strategy for `.exe`, macOS app/binary, or Linux AppImage.

@@ -80,6 +80,36 @@ Print the MCP config again:
 npx -y @sheetaldharshan/exasol-json-mcp print-mcp-config
 ```
 
+Install Claude Desktop MCP config:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=claude
+```
+
+Enable startup after sign-in:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp autostart enable
+```
+
+Check whether autostart is installed:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp autostart status
+```
+
+Disable autostart:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp autostart disable
+```
+
+Run a full local diagnosis:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp doctor
+```
+
 ## Updates
 
 Use update when a maintainer announces a tested release:
