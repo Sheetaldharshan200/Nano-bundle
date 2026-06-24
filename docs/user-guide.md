@@ -80,12 +80,26 @@ Print the MCP config again:
 npx -y @sheetaldharshan/exasol-json-mcp print-mcp-config
 ```
 
-Install Claude Desktop MCP config:
+Install MCP config into supported AI clients:
 
 ```powershell
+npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=all
+```
+
+
+Install only one client if preferred:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=codex
+npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=vscode
 npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=claude
 ```
 
+Check client config status:
+
+```powershell
+npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=all --status
+```
 Enable startup after sign-in:
 
 ```powershell

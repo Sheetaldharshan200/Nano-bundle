@@ -161,6 +161,6 @@
 
 - [x] Add Docker restart policy for long-running Exasol Nano and MCP services.
 - [x] Add `autostart enable`, `autostart disable`, and `autostart status` commands.
-- [x] Add `install-client-config --client=claude` and status support for permanent MCP client config.
+- [x] Add `install-client-config --client=claude|codex|vscode|all` and status support for permanent MCP client config.
 - [x] Add `doctor` command for local diagnostics.
 - [x] Document future native Exasol Nano runtime provider strategy for `.exe`, macOS app/binary, or Linux AppImage.

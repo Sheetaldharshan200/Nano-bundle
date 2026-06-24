@@ -5,7 +5,7 @@ import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { COMMANDS, RESET_CONFIRMATION } from "./constants.js";
 import { enableAutostart, disableAutostart, autostartStatus } from "./autostart.js";
-import { installClientConfig, clientConfigStatus } from "./client-config.js";
+import { installClientConfig, clientConfigStatus, expandClients } from "./client-config.js";
 import { doctor as runDoctor } from "./doctor.js";
 import { defaultStateDir, loadConfig, loadOrCreateConfig, parseEnvFile, saveConfig, writeRuntimeFiles } from "./config.js";
 import { assertDockerAvailable, assertPortsAvailable, dockerCompose, hasRenderedStack } from "./docker.js";
@@ -141,16 +141,20 @@ async function printMcpConfig(stateDir, logger) {
 
 async function installClientConfiguration(stateDir, flags, logger) {
   const config = await readConfig(stateDir);
-  const client = flags.client || "claude";
+  const clients = expandClients(flags.client || "claude");
   if (flags.status) {
-    const status = await clientConfigStatus(config, { client });
-    logger.info(`${client} config: ${status.installed ? "installed" : "not installed"}`);
-    logger.info(`Path: ${status.path}`);
+    for (const client of clients) {
+      const status = await clientConfigStatus(config, { client });
+      logger.info(`${client} config: ${status.installed ? "installed" : "not installed"}`);
+      logger.info(`Path: ${status.path}`);
+    }
     return;
   }
-  const result = await installClientConfig(config, { client, dryRun: Boolean(flags["dry-run"]) });
-  logger.info(flags["dry-run"] ? `${client} config dry run:` : `${client} config installed:`);
-  logger.info(`Path: ${result.path}`);
+  for (const client of clients) {
+    const result = await installClientConfig(config, { client, dryRun: Boolean(flags["dry-run"]) });
+    logger.info(flags["dry-run"] ? `${client} config dry run:` : `${client} config installed:`);
+    logger.info(`Path: ${result.path}`);
+  }
   logger.info("Restart the AI client if it was already open.");
 }
 
@@ -352,5 +356,5 @@ function parseArgs(argv) {
 }
 
 function printHelp() {
-  console.log(`exasol-json-mcp <command> [options]\n\nCommands:\n  ${COMMANDS.join("\n  ")}\n\nOptions:\n  --home=<path>       Override local state directory\n  --channel=stable    Select bundled manifest channel\n  --yes               Use defaults and skip confirmations where safe\n  --no-docker         Render/configure/update without Docker actions\n  --render-only       Alias for start-time rendering only\n  --no-wait           Do not wait for completed/exit after start\n  --static-only       For smoke-test, validate rendered files only\n  --client=claude     Select AI client for install-client-config\n  --dry-run           Show planned client/autostart changes without writing\n  --verbose           Print diagnostic details\n`);
+  console.log(`exasol-json-mcp <command> [options]\n\nCommands:\n  ${COMMANDS.join("\n  ")}\n\nOptions:\n  --home=<path>       Override local state directory\n  --channel=stable    Select bundled manifest channel\n  --yes               Use defaults and skip confirmations where safe\n  --no-docker         Render/configure/update without Docker actions\n  --render-only       Alias for start-time rendering only\n  --no-wait           Do not wait for completed/exit after start\n  --static-only       For smoke-test, validate rendered files only\n  --client=claude     Select AI client: claude, codex, vscode, or all\n  --dry-run           Show planned client/autostart changes without writing\n  --verbose           Print diagnostic details\n`);
 }

@@ -208,4 +208,4 @@ Docker is the current runtime provider. If Exasol later ships a supported native
 
 ## Persistent Client And Startup Design
 
-Long-running Docker services use `restart: unless-stopped` so Docker can bring them back after daemon restart. The CLI also provides `autostart enable|disable|status` to register an OS user-level startup hook that runs `start --yes --no-wait`. The MCP client config can be installed separately with `install-client-config --client=claude`; this keeps the AI client entry permanent while the local stack is started manually or through autostart.
+Long-running Docker services use `restart: unless-stopped` so Docker can bring them back after daemon restart. The CLI also provides `autostart enable|disable|status` to register an OS user-level startup hook that runs `start --yes --no-wait`. The MCP client config can be installed separately with `install-client-config --client=claude|codex|vscode|all`; this keeps AI client entries permanent while the local stack is started manually or through autostart. Claude uses `mcpServers`, Codex uses `config.toml` `[mcp_servers.exasol_nano]`, and VS Code uses `mcp.json` `servers.exasol_nano`.

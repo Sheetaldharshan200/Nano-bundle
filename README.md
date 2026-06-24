@@ -125,10 +125,10 @@ Stop containers but keep data:
 npx -y @sheetaldharshan/exasol-json-mcp stop
 ```
 
-Install the MCP entry into Claude Desktop config:
+Install the MCP entry into supported AI clients:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=claude
+npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=all
 ```
 
 Start the local stack automatically when you sign in:
@@ -143,7 +143,7 @@ Check installation health:
 npx -y @sheetaldharshan/exasol-json-mcp doctor
 ```
 
-After a system restart, either autostart brings the stack back when Docker Desktop is available, or the user can run the normal `start` command again. The AI client config can remain installed permanently.
+After a system restart, either autostart brings the stack back when Docker Desktop is available, or the user can run the normal `start` command again. The AI client config can remain installed permanently. Supported client targets are `claude`, `codex`, `vscode`, and `all`.
 
 ## Update Safely
 

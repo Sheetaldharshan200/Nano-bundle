@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { run, dockerCompose, hasRenderedStack } from "./docker.js";
-import { clientConfigStatus } from "./client-config.js";
+import { clientConfigStatus, SUPPORTED_CLIENTS } from "./client-config.js";
 
 export async function doctor(stateDir, config, logger) {
   logger.info("Doctor report");
@@ -18,8 +18,10 @@ export async function doctor(stateDir, config, logger) {
     logger.info(`Exasol SQL: ${config.sqlHost}:${config.sqlPort}`);
     logger.info(`MCP URL: http://localhost:${config.mcpPort}/mcp`);
     await checkMcpEndpoint(config, logger);
-    const claude = await clientConfigStatus(config, { client: "claude" }).catch((error) => ({ installed: false, path: "unknown", error: error.message }));
-    logger.info(`Claude config: ${claude.installed ? "installed" : "not installed"} (${claude.path})${claude.error ? ` - ${claude.error}` : ""}`);
+    for (const client of SUPPORTED_CLIENTS) {
+      const status = await clientConfigStatus(config, { client }).catch((error) => ({ installed: false, path: "unknown", error: error.message }));
+      logger.info(`${client} config: ${status.installed ? "installed" : "not installed"} (${status.path})${status.error ? ` - ${status.error}` : ""}`);
+    }
   } else {
     logger.info("Next: run `exasol-json-mcp start` once to create configuration.");
   }
