@@ -22,6 +22,36 @@ Local command:
 npm run check:upstreams
 ```
 
+## Release Environment File
+
+Account-specific release settings live in `release.env`, which is intentionally not committed. Start from the checked-in template:
+
+```powershell
+Copy-Item release.env.example release.env
+```
+
+Set at least these values before building or promoting images:
+
+```env
+DOCKER_IMAGE_NAMESPACE=your-dockerhub-user-or-org
+JSON_BOOTSTRAP_TAG=0.1.1
+MCP_SERVER_TAG=0.1.0
+NPM_PACKAGE_NAME=@your-npm-scope/exasol-json-mcp
+```
+
+Then use the scripts without hardcoded account names:
+
+```powershell
+npm run images:set-namespace
+npm run images:push
+```
+
+You can still override from the command line for one-off work:
+
+```powershell
+node scripts/set-image-namespace.js --namespace=your-dockerhub-user --json-bootstrap-tag=0.1.1 --mcp-server-tag=0.1.0
+node scripts/build-images.js --namespace=your-dockerhub-user --json-bootstrap-tag=0.1.1 --mcp-server-tag=0.1.0 --push
+```
 ## Maintainer Flow For New Upstream Versions
 
 1. Read the upstream-watch issue.
@@ -40,13 +70,13 @@ npm run check:upstreams
 Users should not follow upstream tags directly. They should use only tested package releases and stable manifests:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp update
+npx -y <NPM_PACKAGE_NAME> update
 ```
 
 If an update fails:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp rollback
+npx -y <NPM_PACKAGE_NAME> rollback
 ```
 
 ## Why The Watcher Opens Issues Instead Of Auto-Updating Pins

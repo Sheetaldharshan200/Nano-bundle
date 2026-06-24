@@ -1,5 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
+import { loadReleaseEnv, releaseEnvConfig } from "./release-env.js";
 
 const DEFAULT_CONFIG = ".github/upstream-watch.json";
 const DEFAULT_MANIFEST = "manifests/stable.json";
@@ -96,7 +97,7 @@ async function readRequirementVersion(file, packageName) {
 async function fetchJson(url) {
   const response = await fetch(url, {
     headers: {
-      "User-Agent": "sheetaldharshan-exasol-json-mcp-upstream-watch",
+      "User-Agent": `${releaseEnvConfig().npmPackageName.replace(/[^A-Za-z0-9_.-]/g, "-")}-upstream-watch`,
       "Accept": "application/json"
     }
   });
@@ -154,7 +155,8 @@ export function renderMarkdown(report) {
   for (const check of report.checks) {
     lines.push(`- ${check.name}: ${check.note} Source: ${check.source}`);
   }
-  lines.push("", "## Safe Update Flow", "", "1. Update candidate pins only.", "2. Run the `docker-compatibility` workflow with `channel=candidate`.", "3. Promote to stable only after compatibility tests pass.", "4. Tell users to run `npx -y @sheetaldharshan/exasol-json-mcp update`.", "5. If needed, tell users to run `npx -y @sheetaldharshan/exasol-json-mcp rollback`.");
+  const packageName = releaseEnvConfig().npmPackageName;
+  lines.push("", "## Safe Update Flow", "", "1. Update candidate pins only.", "2. Run the `docker-compatibility` workflow with `channel=candidate`.", "3. Promote to stable only after compatibility tests pass.", `4. Tell users to run \`npx -y ${packageName} update\`.`, `5. If needed, tell users to run \`npx -y ${packageName} rollback\`.`);
   return `${lines.join("\n")}\n`;
 }
 
@@ -175,6 +177,7 @@ function parseArgs(argv) {
 }
 
 async function main() {
+  await loadReleaseEnv();
   const flags = parseArgs(process.argv.slice(2));
   const report = await checkUpstreams({
     configPath: flags.config || DEFAULT_CONFIG,

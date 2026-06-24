@@ -2,13 +2,14 @@
 
 Use this checklist before promoting a candidate manifest to stable.
 
+- [ ] `release.env` reviewed locally and `release.env.example` updated if new release variables are needed.
 - [ ] Version pins changed only in manifests and generated metadata.
 - [ ] Upstream release notes reviewed for Exasol Nano, JSON bootstrap image, and MCP Server image.
 - [ ] `npm run lint` passed.
 - [ ] `npm test` passed.
 - [ ] `npm run validate:manifests` passed.
 - [ ] `npm pack --dry-run` passed.
-- [ ] `npm whoami` returns `sheetaldharshan` for manual npm publishing, or GitHub secret `NPM_TOKEN` is configured for workflow publishing.
+- [ ] `npm whoami` returns the account or organization configured by `NPM_PACKAGE_NAME`, or GitHub secret `NPM_TOKEN` is configured for workflow publishing.
 - [ ] GitHub `CI` workflow passed on `main`.
 - [ ] Manual `docker-compatibility` workflow passed for candidate.
 - [ ] Update from previous stable passed.
@@ -36,12 +37,12 @@ Describe startup, data, schema, MCP, or configuration changes.
 ### Rollback
 
 ```bash
-npx @sheetaldharshan/exasol-json-mcp rollback
+npx <NPM_PACKAGE_NAME> rollback
 ```
 
 ## npm Release
 
-The package name is `@sheetaldharshan/exasol-json-mcp`, so it must be published from the npm account or organization named `sheetaldharshan`.
+The package name should match `NPM_PACKAGE_NAME` in `release.env`. For the public package in this repo, that is `@sheetaldharshan/exasol-json-mcp`.
 
 Manual publish:
 
@@ -51,4 +52,4 @@ npm whoami
 npm publish --access public
 ```
 
-GitHub Actions publish requires a repository secret named `NPM_TOKEN` containing an npm automation token from the `sheetaldharshan` account. Push tag `v0.1.0` or run the `release-npm` workflow manually after CI passes.
+GitHub Actions publish requires a repository secret named `NPM_TOKEN` containing an npm automation token for the configured npm package scope. Push a `vX.Y.Z` tag or run the `release-npm` workflow manually after CI passes.

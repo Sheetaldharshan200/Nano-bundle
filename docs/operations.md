@@ -4,7 +4,7 @@ This document records production runtime decisions and the fixes for issues foun
 
 ## Docker Hub Images
 
-The release manifests use tested images under `docker.io/sheetaldharshan/*`:
+The release manifests use tested Docker images. Maintainers configure the Docker Hub account or organization with `DOCKER_IMAGE_NAMESPACE` in `release.env`; the current public release uses `docker.io/sheetaldharshan/*`:
 
 - `docker.io/sheetaldharshan/exasol-json-bootstrap:0.1.1`
 - `docker.io/sheetaldharshan/exasol-mcp-server:0.1.0`
