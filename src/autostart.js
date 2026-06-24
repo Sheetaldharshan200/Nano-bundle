@@ -9,7 +9,7 @@ const PLIST_ID = "com.sheetaldharshan.exasol-json-mcp";
 
 export function autostartPlan(stateDir, { platform = process.platform, env = process.env } = {}) {
   const homeDir = resolve(stateDir);
-  const command = `npx -y @sheetaldharshan/exasol-json-mcp start --home=${shellQuote(homeDir, platform)} --yes --no-wait`;
+  const command = `npx -y @sheetaldharshan/exasol-json-mcp@latest start --home=${shellQuote(homeDir, platform)} --yes --no-wait`;
   if (platform === "win32") {
     const scriptPath = join(homeDir, "autostart", "start-exasol-json-mcp.ps1");
     const taskRun = `powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "${scriptPath}"`;

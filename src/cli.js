@@ -361,9 +361,9 @@ function printHelp() {
 One-command local Exasol Nano + JSON Tables + MCP launcher.
 
 Common first run:
-  npx -y @sheetaldharshan/exasol-json-mcp start
-  npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=all
-  npx -y @sheetaldharshan/exasol-json-mcp autostart enable
+  npx -y @sheetaldharshan/exasol-json-mcp@latest start
+  npx -y @sheetaldharshan/exasol-json-mcp@latest install-client-config --client=all
+  npx -y @sheetaldharshan/exasol-json-mcp@latest autostart enable
 
 Commands:
   start                    Configure if needed, start Docker stack, wait for readiness, run smoke tests

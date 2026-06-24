@@ -5,9 +5,9 @@ The current runtime uses Docker because Exasol Nano, JSON bootstrap, and the MCP
 If Exasol later provides Nano as a supported Windows `.exe`, macOS app, or Linux AppImage, this launcher can still bundle the experience with the same outer contract:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp start
-npx -y @sheetaldharshan/exasol-json-mcp update
-npx -y @sheetaldharshan/exasol-json-mcp rollback
+npx -y @sheetaldharshan/exasol-json-mcp@latest start
+npx -y @sheetaldharshan/exasol-json-mcp@latest update
+npx -y @sheetaldharshan/exasol-json-mcp@latest rollback
 ```
 
 ## Adapter Model

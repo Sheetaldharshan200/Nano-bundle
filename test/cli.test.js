@@ -66,6 +66,7 @@ test("--help shows commands, subcommands, clients, and examples", async () => {
     await main(["--help"]);
     const help = output.join("\n");
     assert.match(help, /Commands:/);
+    assert.match(help, /@sheetaldharshan\/exasol-json-mcp@latest start/);
     assert.match(help, /install-client-config/);
     assert.match(help, /autostart enable/);
     assert.match(help, /--client=<target>/);

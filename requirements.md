@@ -7,7 +7,7 @@ Deliver a production-ready local launcher for Exasol Nano + JSON Tables + Exasol
 Primary command:
 
 ```bash
-npx @sheetaldharshan/exasol-json-mcp start
+npx @sheetaldharshan/exasol-json-mcp@latest start
 ```
 
 Fallback command:

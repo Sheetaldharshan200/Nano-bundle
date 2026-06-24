@@ -3,7 +3,7 @@
 Run a local Exasol Nano database, load sample JSON data, and expose a safe read-only MCP endpoint for AI assistants with one command.
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp start
+npx -y @sheetaldharshan/exasol-json-mcp@latest start
 ```
 
 This project is for local demos, BI exploration, solution engineering, and repeatable JSON/MCP testing. It starts everything in Docker on your machine and binds SQL and MCP ports to `127.0.0.1` by default.
@@ -40,7 +40,7 @@ npm --version
 Use PowerShell, Terminal, or Command Prompt:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp start
+npx -y @sheetaldharshan/exasol-json-mcp@latest start
 ```
 
 The launcher will:
@@ -92,55 +92,55 @@ The stack keeps running until you stop it.
 Start or reuse the stack:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp start
+npx -y @sheetaldharshan/exasol-json-mcp@latest start
 ```
 
 Show current status:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp status
+npx -y @sheetaldharshan/exasol-json-mcp@latest status
 ```
 
 Print only the MCP config again:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp print-mcp-config
+npx -y @sheetaldharshan/exasol-json-mcp@latest print-mcp-config
 ```
 
 Show recent logs:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp logs
+npx -y @sheetaldharshan/exasol-json-mcp@latest logs
 ```
 
 Run health checks:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp smoke-test
+npx -y @sheetaldharshan/exasol-json-mcp@latest smoke-test
 ```
 
 Stop containers but keep data:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp stop
+npx -y @sheetaldharshan/exasol-json-mcp@latest stop
 ```
 
 Install the MCP entry into supported AI clients:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=all
+npx -y @sheetaldharshan/exasol-json-mcp@latest install-client-config --client=all
 ```
 
 Start the local stack automatically when you sign in:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp autostart enable
+npx -y @sheetaldharshan/exasol-json-mcp@latest autostart enable
 ```
 
 Check installation health:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp doctor
+npx -y @sheetaldharshan/exasol-json-mcp@latest doctor
 ```
 
 After a system restart, either autostart brings the stack back when Docker Desktop is available, or the user can run the normal `start` command again. The AI client config can remain installed permanently. Supported client targets are `claude`, `codex`, `vscode`, and `all`.
@@ -150,7 +150,7 @@ After a system restart, either autostart brings the stack back when Docker Deskt
 Use this when a new tested launcher/runtime release is available:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp update
+npx -y @sheetaldharshan/exasol-json-mcp@latest update
 ```
 
 The update flow shows current and target versions before changing anything. It saves the old manifest as `previous-manifest.json`, pulls the new images, starts the stack, and runs smoke tests.
@@ -158,13 +158,13 @@ The update flow shows current and target versions before changing anything. It s
 If an update fails, roll back:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp rollback
+npx -y @sheetaldharshan/exasol-json-mcp@latest rollback
 ```
 
 Use `status` after update or rollback:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp status
+npx -y @sheetaldharshan/exasol-json-mcp@latest status
 ```
 
 ## Clean Reset
@@ -172,7 +172,7 @@ npx -y @sheetaldharshan/exasol-json-mcp status
 Use this only when you want to remove the local containers and Docker volume for this stack.
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp reset --confirm=delete-local-exasol-json-mcp
+npx -y @sheetaldharshan/exasol-json-mcp@latest reset --confirm=delete-local-exasol-json-mcp
 ```
 
 A normal `stop` is safer for daily use because it preserves data.
@@ -188,7 +188,7 @@ Start Docker Desktop, wait for Engine running, then run start again.
 Port already in use:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp configure
+npx -y @sheetaldharshan/exasol-json-mcp@latest configure
 ```
 
 Then choose different SQL or MCP ports.
@@ -196,13 +196,13 @@ Then choose different SQL or MCP ports.
 Need logs:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp logs --tail=300
+npx -y @sheetaldharshan/exasol-json-mcp@latest logs --tail=300
 ```
 
 Need to verify the system:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp smoke-test --verbose
+npx -y @sheetaldharshan/exasol-json-mcp@latest smoke-test --verbose
 ```
 
 ## For Maintainers

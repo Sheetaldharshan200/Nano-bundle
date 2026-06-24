@@ -11,7 +11,7 @@ const config = {
 
 test("autostart plan uses npx start with no wait", () => {
   const plan = autostartPlan("C:\\Users\\me\\.exasol-json-mcp", { platform: "win32" });
-  assert.match(plan.command, /npx -y @sheetaldharshan\/exasol-json-mcp start/);
+  assert.match(plan.command, /npx -y @sheetaldharshan\/exasol-json-mcp@latest start/);
   assert.match(plan.command, /--yes --no-wait/);
   assert.equal(plan.installCommand[0], "schtasks");
 });
@@ -21,7 +21,7 @@ test("autostart dry run writes launcher script without enabling OS service", asy
   try {
     const { plan } = await enableAutostart(dir, { platform: "win32", dryRun: true });
     const script = await readFile(plan.scriptPath, "utf8");
-    assert.match(script, /exasol-json-mcp start/);
+    assert.match(script, /exasol-json-mcp@latest start/);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

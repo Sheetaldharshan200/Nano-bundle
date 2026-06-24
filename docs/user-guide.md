@@ -9,7 +9,7 @@ You do not need to clone this repository.
 Install Docker Desktop and Node.js, then run:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp start
+npx -y @sheetaldharshan/exasol-json-mcp@latest start
 ```
 
 The `-y` flag tells npm not to ask an extra install question.
@@ -47,81 +47,81 @@ Use the connected Exasol MCP server. List available schemas, describe ANALYTICS.
 Start or reuse the environment:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp start
+npx -y @sheetaldharshan/exasol-json-mcp@latest start
 ```
 
 Check whether it is configured and running:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp status
+npx -y @sheetaldharshan/exasol-json-mcp@latest status
 ```
 
 Show logs:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp logs
+npx -y @sheetaldharshan/exasol-json-mcp@latest logs
 ```
 
 Run a health check:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp smoke-test
+npx -y @sheetaldharshan/exasol-json-mcp@latest smoke-test
 ```
 
 Stop without deleting data:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp stop
+npx -y @sheetaldharshan/exasol-json-mcp@latest stop
 ```
 
 Print the MCP config again:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp print-mcp-config
+npx -y @sheetaldharshan/exasol-json-mcp@latest print-mcp-config
 ```
 
 Install MCP config into supported AI clients:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=all
+npx -y @sheetaldharshan/exasol-json-mcp@latest install-client-config --client=all
 ```
 
 
 Install only one client if preferred:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=codex
-npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=vscode
-npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=claude
+npx -y @sheetaldharshan/exasol-json-mcp@latest install-client-config --client=codex
+npx -y @sheetaldharshan/exasol-json-mcp@latest install-client-config --client=vscode
+npx -y @sheetaldharshan/exasol-json-mcp@latest install-client-config --client=claude
 ```
 
 Check client config status:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp install-client-config --client=all --status
+npx -y @sheetaldharshan/exasol-json-mcp@latest install-client-config --client=all --status
 ```
 Enable startup after sign-in:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp autostart enable
+npx -y @sheetaldharshan/exasol-json-mcp@latest autostart enable
 ```
 
 Check whether autostart is installed:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp autostart status
+npx -y @sheetaldharshan/exasol-json-mcp@latest autostart status
 ```
 
 Disable autostart:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp autostart disable
+npx -y @sheetaldharshan/exasol-json-mcp@latest autostart disable
 ```
 
 Run a full local diagnosis:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp doctor
+npx -y @sheetaldharshan/exasol-json-mcp@latest doctor
 ```
 
 ## Updates
@@ -129,13 +129,13 @@ npx -y @sheetaldharshan/exasol-json-mcp doctor
 Use update when a maintainer announces a tested release:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp update
+npx -y @sheetaldharshan/exasol-json-mcp@latest update
 ```
 
 The launcher shows versions before applying the update. If anything fails, run:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp rollback
+npx -y @sheetaldharshan/exasol-json-mcp@latest rollback
 ```
 
 ## Reset
@@ -143,7 +143,7 @@ npx -y @sheetaldharshan/exasol-json-mcp rollback
 Only reset when you want to delete the local Docker volume for this stack:
 
 ```powershell
-npx -y @sheetaldharshan/exasol-json-mcp reset --confirm=delete-local-exasol-json-mcp
+npx -y @sheetaldharshan/exasol-json-mcp@latest reset --confirm=delete-local-exasol-json-mcp
 ```
 
 For normal daily shutdown, use `stop` instead.
